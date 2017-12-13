@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import csv
 import os
 import platform
@@ -22,10 +23,10 @@ class CsvGenerate:
         result = daily_report.__getReport__(True)
         with open(path, mode='w', encoding='utf-8', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(self.__getFields__())
             fields = ("insight_date", "account_name", "account_id", "advertiser_id", "campaign_group_name"\
                           , "campaign_name", "adgroup_name", "displayName", "fb_created_time", "spend")
             created_time_format = '%Y/%m/%d %H:%M:%S'
+            writer.writerow(self.__getFields__())
             for record in result:
                 line = []
                 temp_field_value = None
