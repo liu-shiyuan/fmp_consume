@@ -16,10 +16,10 @@ class PersistentDailyReport:
         result = daily_report.__getReport__()
         if result is None:
             return
-        db = pymysql.connect(self.conf.HOST, self.conf.USER, self.conf.PWD, self.conf.DB)
-        sql = """INSERT INTO `fb_online_report` (`report_date`, `adaccount_name`
-            , `adaccount_id`, `advertiser`, `campaign_name`, `adset_name`, `ad_name`
-            , `cost`) VALUES (%s, %s, %s, %s, %s, %s, %s, %f);"""
+        db = pymysql.connect(self.conf.HOST, self.conf.USER, self.conf.PWD, self.conf.DB, charset='utf8')
+        sql = "INSERT INTO `fb_online_report` (`report_date`, `adaccount_name` \
+            , `adaccount_id`, `advertiser`, `campaign_name`, `adset_name`, `ad_name` \
+            , `cost`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', %f);"
         cursor = db.cursor()
         for record in result:
             sql = sql % (record['insight_date'], record['account_name'], record['account_id']
@@ -29,8 +29,8 @@ class PersistentDailyReport:
             try:
                 cursor.execute(sql)
                 db.commit()
-            except:
-                """"""
+            except Exception as e:
+                print(e)
         db.close()
 
 
@@ -45,5 +45,6 @@ class QADatebase:
     def __getattr__(self, name):
         self.get(name, None)
 
-conf = Config()
-PersistentDailyReport('test').persist('20171116')
+
+if __name__ == "__main__":
+    PersistentDailyReport('test').persist('20171116')
