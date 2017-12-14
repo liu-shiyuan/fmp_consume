@@ -5,19 +5,18 @@ import urllib.parse
 import urllib.error
 import pprint
 import sys
+from config import Config
 
 
 class DailyReport:
-    def __init__(self, domain='http://localhost:8080', api='adsapi/api/ads/fb/report/fmp/consume/daily/' \
-                 , report_date=None, access_token=None):
+    def __init__(self, domain=None, api=None, report_date=None, access_token=None):
         if report_date is None:
             raise Exception("Parameter 'report_date' is required.")
-        if access_token is None:
-            raise Exception("Parameter 'access_token' is required.")
-        self.domain = domain
-        self.api = api
+        conf = Config()
+        self.domain = domain if domain else conf.get('domain')
+        self.api = api if api else conf.get('api')
+        self.access_token = access_token if access_token else conf.get('token')
         self.report_date = report_date
-        self.access_token = access_token
 
     def __getReport__(self, print_result=False):
         dest_url = urllib.parse.urljoin(self.domain, self.api)
@@ -46,8 +45,8 @@ if __name__ == '__main__':
     arg_size = len(sys.argv)
     if arg_size < 3:
         raise Exception("Parameter 'report_date' & 'access_token' are required.")
-    report_date = sys.argv[1]
-    access_token = sys.argv[2]
-    dr = DailyReport(report_date=report_date, access_token=access_token)
+    _report_date = sys.argv[1]
+    _access_token = sys.argv[2]
+    dr = DailyReport(report_date=_report_date, access_token=_access_token)
     dr.__getReport__(True)
 

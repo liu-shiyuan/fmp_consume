@@ -1,25 +1,21 @@
 # -*- coding:utf-8 -*-
 import csv
-import os
-import platform
 from adsapi import DailyReport
-import datetime
+from defaultStorePath import determine_default_file_path
 import time
 
 
 class CsvGenerate:
-    def __init__(self, access_token=None):
-        if access_token is None:
-            raise Exception("Parameter 'access_token' is required.")
-        self.access_token = access_token
+    def __init__(self):
+        """ Csv Generator"""
 
     def __genCsv__(self, report_date=None, path=None):
         if report_date is None:
             raise Exception("Parameter 'report_date' is required.")
         if path is None:
-            path = self.__determineDefaultFilePath__(report_date)
+            path = determine_default_file_path(report_date, 'csv')
 
-        daily_report = DailyReport(report_date=report_date, access_token=self.access_token)
+        daily_report = DailyReport(report_date=report_date)
         result = daily_report.__getReport__(True)
         with open(path, mode='w', encoding='utf-8', newline='') as f:
             writer = csv.writer(f)
@@ -44,18 +40,6 @@ class CsvGenerate:
                 writer.writerow(line)
 
     @staticmethod
-    def __determineDefaultFilePath__(report_date):
-        if  'windows' == platform.system().lower():
-            base_path = os.getenv('USERPROFILE')
-            return base_path + '/Desktop/' + report_date + '.csv'
-        elif 'linux' == platform.system().lower():
-            base_path = os.getenv('HOME')
-            return 'base_path' + '/'
-        elif 'darwin' == platform.system().lower():
-            base_path = os.getenv('HOME')
-            return 'base_path' + '/'
-
-    @staticmethod
     def __getFields__():
         return ("日期", "Ad account name", "Ad account ID", "advertiser"\
                     , "campaign name", "adset name", "ad name", "创建者"\
@@ -63,4 +47,4 @@ class CsvGenerate:
 
 
 if __name__ == '__main__':
-    CsvGenerate(access_token='ss').__genCsv__(report_date='20171116')
+    CsvGenerate().__genCsv__(report_date='20171116')
