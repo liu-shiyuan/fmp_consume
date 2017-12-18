@@ -200,9 +200,13 @@ def total_12_week_consume_sql():
     ) a"""
 
 
-if __name__ == '__main__':
+def gen_all():
     gen_last_7_day_chart()
     gen_12_week_chart()
     gen_total_consume_chart()
     gen_60_day_advertiser_consume()
     gen_12_week_bar()
+
+
+if __name__ == '__main__':
+    genAll()
