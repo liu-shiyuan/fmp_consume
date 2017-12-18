@@ -1,9 +1,10 @@
 from storeDB import PersistentDailyReport
 from genCSV import CsvGenerate
 from genFigure import gen_all
-#import datetime.datetime
-#import datetime.timedelta
 from datetime import datetime, timedelta
+
+
+REPORT_DATE_FORMAT = '%Y%m%d'
 
 
 class FmpConsumeReportJob:
@@ -21,12 +22,12 @@ class FmpConsumeReportJob:
     def fire(self):
         task_list = []
         if self._from_date:
-            from_date = datetime.strptime(self._from_date, '%Y%m%d')
-            to_date = datetime.strptime(self._report_date, '%Y%m%d')
+            from_date = datetime.strptime(self._from_date, REPORT_DATE_FORMAT)
+            to_date = datetime.strptime(self._report_date, REPORT_DATE_FORMAT)
             if from_date >= to_date:
                 raise RuntimeError("from_date should ahead of report_date")
             while from_date < to_date:
-                temp_str = from_date.strftime("%Y%m%d")
+                temp_str = from_date.strftime(REPORT_DATE_FORMAT)
                 task_list.append(temp_str)
                 from_date = from_date + timedelta(days=1)
         task_list.append(self._report_date)
@@ -39,6 +40,12 @@ class FmpConsumeReportJob:
             gen_all()
 
 
+def daily_job():
+    now_time = datetime.now()
+    report_time = now_time + timedelta(days=-1)
+    report_date = report_time.strptime(REPORT_DATE_FORMAT)
+    FmpConsumeReportJob(report_date=report_date).fire()
+
+
 if __name__ == '__main__':
-    FmpConsumeReportJob(from_date='20171214', report_date='20171217').fire()
-    #FmpConsumeReportJob(report_date='20171212').fire()
+    FmpConsumeReportJob(report_date='20171212').fire()

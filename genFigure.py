@@ -52,7 +52,7 @@ def gen_12_week_chart():
         index = index + 1
     plt.text(5, baseline_value, 'Baseline 1000', size=15)
     plt.grid(True)
-    plt.axhline(baseline_value, linewidth=2)
+    plt.axhline(baseline_value, linewidth=2, color='b')
     file_name = determine_default_file_path('Figure_2', 'png')
     plt.savefig(file_name)
     plt.close()
@@ -138,7 +138,7 @@ def get_record(sql):
 def last_7_days_sql():
     d = datetime.datetime.now()
     d1 = d + timedelta(days=-1)
-    d2 = d1 + timedelta(days=-7)
+    d2 = d1 + timedelta(days=-6)
 
     a = d1.strftime("%Y/%m/%d")
     b = d2.strftime("%Y/%m/%d")
