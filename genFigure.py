@@ -11,10 +11,11 @@ baseline_value = 1000
 
 
 def gen_last_7_day_chart():
-    results = get_records(last_7_days_sql())
+    print('gen_last_7_day_chart start')
+    results1 = get_records(last_7_days_sql())
     x_date = []
     y_cost = []
-    for row in results:
+    for row in results1:
         x_date.append(row[1])
         y_cost.append(row[2])
 
@@ -28,13 +29,16 @@ def gen_last_7_day_chart():
     plt.grid(True)
     file_name = determine_default_file_path('Figure_1', 'png')
     plt.savefig(file_name)
+    plt.close()
+    print('gen_last_7_day_chart done')
 
 
 def gen_12_week_chart():
-    results = get_records(last_12_week_sql())
+    print('gen_12_week_chart start')
+    results2 = get_records(last_12_week_sql())
     x_date = []
     y_cost = []
-    for row in results:
+    for row in results2:
         x_date.append(row[1] + '-' + row[2])
         y_cost.append(row[3])
     fig1 = plt.figure(figsize=(20, 10))
@@ -51,26 +55,32 @@ def gen_12_week_chart():
     plt.axhline(baseline_value, linewidth=2)
     file_name = determine_default_file_path('Figure_2', 'png')
     plt.savefig(file_name)
+    plt.close()
+    print('gen_12_week_chart done')
 
 
 def gen_total_consume_chart():
-    result = get_record(total_consume_sql())
-    data = [result[0], result[1]]
-    title = ['FMP要求消耗', 'Performad统计消耗（' + result[2] + '）']
+    print('gen_total_consume_chart start')
+    result3 = get_record(total_consume_sql())
+    data = [result3[0], result3[1]]
+    title = ['FMP要求消耗', 'Performad统计消耗（' + result3[2] + '）']
     plt.title('Performad总消耗统计')
     plt.bar(title, data, fc='r', width=0.4)
-    plt.text(0, result[0] + 3000, result[0])
-    plt.text(1, result[1] + 3000, result[1])
+    plt.text(0, result3[0] + 3000, result3[0])
+    plt.text(1, result3[1] + 3000, result3[1])
     file_name = determine_default_file_path('Figure_3', 'png')
     plt.savefig(file_name)
+    plt.close()
+    print('gen_total_consume_chart done')
 
 
 def gen_60_day_advertiser_consume():
+    print('gen_60_day_advertiser_consume start')
     param = advertiser_60_day_consume_param()
-    results = get_records(param['sql'])
+    results4 = get_records(param['sql'])
     x_label = []
     data = []
-    for row in results:
+    for row in results4:
         x_label.append(row[0])
         data.append(row[1])
     length = len(x_label)
@@ -83,17 +93,22 @@ def gen_60_day_advertiser_consume():
     plt.bar(x_label, data, fc='r', width=0.4)
     file_name = determine_default_file_path('Figure_4', 'png')
     plt.savefig(file_name)
+    plt.close()
+    print('gen_60_day_advertiser_consume done')
 
 
 def gen_12_week_bar():
-    result = get_record(total_12_week_consume_sql())
-    plt.title("Performad统计近12周消耗（" + result[1] + "）")
+    print('gen_12_week_bar start')
+    result5 = get_record(total_12_week_consume_sql())
+    plt.title("Performad统计近12周消耗（" + result5[1] + "）")
     plt.bar('FMP要求消耗', 100000, fc='r', width=0.4)
-    plt.bar('Performad统计消耗（近12周）', result[0], fc='r', width=0.4)
+    plt.bar('Performad统计消耗（近12周）', result5[0], fc='r', width=0.4)
     plt.text(0, 100000, 100000)
-    plt.text(1, result[0], result[0])
+    plt.text(1, result5[0], result5[0])
     file_name = determine_default_file_path('Figure_5', 'png')
     plt.savefig(file_name)
+    plt.close()
+    print('gen_12_week_bar done')
 
 
 def get_records(sql):
@@ -186,8 +201,8 @@ def total_12_week_consume_sql():
 
 
 if __name__ == '__main__':
-    #gen_last_7_day_chart()
-    #gen_12_week_chart()
-    #gen_total_consume_chart()
-    #gen_60_day_advertiser_consume()
+    gen_last_7_day_chart()
+    gen_12_week_chart()
+    gen_total_consume_chart()
+    gen_60_day_advertiser_consume()
     gen_12_week_bar()

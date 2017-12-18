@@ -47,4 +47,4 @@ class CsvGenerate:
 
 
 if __name__ == '__main__':
-    CsvGenerate().__genCsv__(report_date='20171116')
+    CsvGenerate().__genCsv__(report_date='20171213')
