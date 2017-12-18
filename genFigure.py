@@ -209,4 +209,4 @@ def gen_all():
 
 
 if __name__ == '__main__':
-    genAll()
+    gen_all()
