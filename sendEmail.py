@@ -77,6 +77,10 @@ def sent_report_to_receives():
     <p><img src="cid:Figure_5"></p>
     注：蓝色线为1000美元基准线<br>
     <br>
+    <p>FMP dashboard:  <a href="http://172.16.25.197:8080/fmp/dashboard.html">http://172.16.25.197:8080/fmp/dashboard.html</a></p>
+    <br>
+    --
+    <br>
     """ % (time_range)
     msg_alternative = MIMEMultipart('alternative')
     msg_root.attach(msg_alternative)
@@ -101,11 +105,13 @@ def sent_report_to_receives():
         att = MIMEText(csvf.read(), 'base64', 'utf-8')
         att["Content-Type"] = 'application/octet-stream'
     # 这里的filename可以任意写，写什么名字，邮件中显示什么名字
-        att["Content-Disposition"] = "attachment; filename='%s.csv'" % csv_file
+        att["Content-Disposition"] = "attachment; filename=%s.csv" % csv_file
         msg_root.attach(att)
+        csvf.close()
     mail_client = get_mail_client()
     try:
-        mail_client.sendmail(mail_user, mail_admin, msg_root.as_string())
+        all_receivers = mail_receives if len(mail_cc) == 0 else mail_receives + mail_cc
+        mail_client.sendmail(mail_user, all_receivers, msg_root.as_string())
         print('sent_report_to_receives succeed')
     except smtplib.SMTPException:
         print("Error: sent_report_to_receives无法发送邮件")

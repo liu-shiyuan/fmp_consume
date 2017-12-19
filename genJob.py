@@ -2,6 +2,7 @@ from storeDB import PersistentDailyReport
 from genCSV import CsvGenerate
 from genFigure import gen_all
 from datetime import datetime, timedelta
+from sendEmail import sent_job_status_to_admin, sent_report_to_receives
 
 
 REPORT_DATE_FORMAT = '%Y%m%d'
@@ -43,9 +44,12 @@ class FmpConsumeReportJob:
 def daily_job():
     now_time = datetime.now()
     report_time = now_time + timedelta(days=-1)
-    report_date = report_time.strptime(REPORT_DATE_FORMAT)
+    report_date = report_time.strftime(REPORT_DATE_FORMAT)
     FmpConsumeReportJob(report_date=report_date).fire()
+    sent_job_status_to_admin(report_date=report_date)
+    sent_report_to_receives()
 
 
 if __name__ == '__main__':
-    FmpConsumeReportJob(report_date='20171212').fire()
+    #FmpConsumeReportJob(report_date='20171212').fire()
+    daily_job()
