@@ -3,3 +3,6 @@
 *.classpath
 *.settings
 *__pycache__/
+dist/
+*.spec
+build/
