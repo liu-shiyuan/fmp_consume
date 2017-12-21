@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from storeDB import PersistentDailyReport
 from genCSV import CsvGenerate
 from genFigure import gen_all
@@ -47,9 +48,9 @@ def daily_job():
     report_date = report_time.strftime(REPORT_DATE_FORMAT)
     FmpConsumeReportJob(report_date=report_date).fire()
     sent_job_status_to_admin(report_date=report_date)
-    sent_report_to_receives()
+    # sent_report_to_receives()
 
 
 if __name__ == '__main__':
-    #FmpConsumeReportJob(report_date='20171212').fire()
+    #FmpConsumeReportJob(from_date='20171219', report_date='20171220').fire()
     daily_job()

@@ -1,9 +1,12 @@
 # -*- coding:utf-8 -*-
 import os
 import configparser
+import sys
 
 
-current_dir = os.path.abspath(os.path.dirname(__file__))
+""" windows 系统下exe程序强制为c:/windows/system32，并不是真实目录 """
+#current_dir = os.path.abspath(os.path.dirname(__file__))
+
 
 
 class OperationalError(Exception):
@@ -27,7 +30,10 @@ class Config:
             self.env[key] = value
 
         config = configparser.ConfigParser()
-        config.read(os.path.join(current_dir, file_name))
+        config_file = os.path.join(get_real_path(), file_name)
+        if not os.path.exists(config_file):
+            raise RuntimeError('config file not found: %s' % config_file)
+        config.read(config_file)
 
         for section in config.sections():
             setattr(self, section, Dictionary())
@@ -48,12 +54,26 @@ class Config:
         return self.env[name]
 
 
+def get_real_path():
+    arg_0 = sys.argv[0]
+    arg_0 = os.path.abspath(arg_0)
+    sap = '/'
+    if arg_0.find(sap) == -1:
+        sap = '\\'
+    index = arg_0.rfind(sap)
+    path = arg_0[:index] + sap
+    return path
+
+
+
 if __name__ == "__main__":
     conf = Config()
     print(conf.get('db.qa.username'))
     print(conf.get('USERPROFILE'))
     print(conf.get('min.idle'))
     print(conf.get('db.qa.url'))
+
+
 
 
 
