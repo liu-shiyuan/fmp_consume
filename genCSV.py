@@ -16,7 +16,7 @@ class CsvGenerate:
             path = determine_default_file_path(report_date, 'csv')
 
         daily_report = DailyReport(report_date=report_date)
-        result = daily_report.__getReport__(True)
+        result = daily_report.__getReport__(False)
         with open(path, mode='w', encoding='utf-8', newline='') as f:
             writer = csv.writer(f)
             fields = ("insight_date", "account_name", "account_id", "advertiser_id", "campaign_group_name"\
