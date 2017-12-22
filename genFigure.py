@@ -8,6 +8,7 @@ from defaultStorePath import determine_default_file_path
 
 
 mpl.rcParams['font.sans-serif'] = ['SimHei']
+mpl.rcParams['axes.unicode_minus'] = False
 baseline_value = 1000
 
 
