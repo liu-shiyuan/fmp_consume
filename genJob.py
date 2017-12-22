@@ -43,12 +43,18 @@ class FmpConsumeReportJob:
 
 
 def daily_job():
-    now_time = datetime.now()
-    report_time = now_time + timedelta(days=-1)
-    report_date = report_time.strftime(REPORT_DATE_FORMAT)
-    FmpConsumeReportJob(report_date=report_date).fire()
-    sent_job_status_to_admin(report_date=report_date)
-    # sent_report_to_receives()
+    success = False
+    try:
+        now_time = datetime.now()
+        report_time = now_time + timedelta(days=-1)
+        report_date = report_time.strftime(REPORT_DATE_FORMAT)
+        FmpConsumeReportJob(report_date=report_date).fire()
+        success = True
+    except Exception as e:
+        sent_job_status_to_admin(report_date=report_date, content=str(e))
+    if success:
+        sent_job_status_to_admin(report_date=report_date)
+    sent_report_to_receives()
 
 
 if __name__ == '__main__':

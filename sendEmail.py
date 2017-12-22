@@ -37,7 +37,9 @@ def get_mail_client():
 def sent_job_status_to_admin(report_date, content=None):
     default_text = 'Daily fmp consume job finish: %s' % report_date
     if content:
-        message = MIMEText(content, 'Plain', 'utf-8')
+        mail_content = """Error occurred while running fmp consume job:
+        %s""" % content
+        message = MIMEText(mail_content, 'Plain', 'utf-8')
     else:
         message = MIMEText(default_text, 'Plain', 'utf-8')
     subject = 'FMP consume'
