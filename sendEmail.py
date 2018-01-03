@@ -72,12 +72,12 @@ def sent_report_to_receives():
     <p><img src="cid:Figure_1"></p>
     二、Performad每周消耗统计<br>
     <p><img src="cid:Figure_2"></p>
-    三、Performad总消耗统计<br>
-    <p><img src="cid:Figure_3"></p>
+    三、Performad近12周消耗统计<br>
+    <p><img src="cid:Figure_5"></p>
     四、Performad分广告主消耗统计<br>
     <p><img src="cid:Figure_4"></p>
-    五、Performad近12周消耗统计<br>
-    <p><img src="cid:Figure_5"></p>
+    五、Performad总消耗统计<br>
+    <p><img src="cid:Figure_3"></p>
     注：蓝色线为1000美元基准线<br>
     <br>
     <p>FMP dashboard:  <a href="http://172.16.25.197:8080/fmp/dashboard.html">http://172.16.25.197:8080/fmp/dashboard.html</a></p>

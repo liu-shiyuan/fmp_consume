@@ -58,5 +58,5 @@ def daily_job():
 
 
 if __name__ == '__main__':
-    #FmpConsumeReportJob(from_date='20171219', report_date='20171220').fire()
-    daily_job()
+    FmpConsumeReportJob(from_date='20171229', report_date='20180102').fire()
+    #daily_job()

@@ -43,8 +43,8 @@ def gen_12_week_chart():
     for row in results2:
         x_date.append(row[1] + '-' + row[2])
         y_cost.append(row[3])
-    fig1 = plt.figure(figsize=(20, 10))
-    plt.xticks(rotation=60)
+    fig1 = plt.figure(figsize=(18, 13))
+    plt.xticks(rotation=75)
     plt.plot(x_date, y_cost, 'ro-')
     plt.title('Performad每周消耗统计')
     length = len(x_date)
@@ -82,9 +82,11 @@ def gen_60_day_advertiser_consume():
     results4 = get_records(param['sql'])
     x_label = []
     data = []
+    order_int = 1
     for row in results4:
-        x_label.append(row[0])
+        x_label.append(str(order_int) +  "." + row[0])
         data.append(row[1])
+        order_int = order_int + 1
     length = len(x_label)
     index = 0
     while index < length:
@@ -145,7 +147,7 @@ def last_7_days_sql():
     a = d1.strftime("%Y/%m/%d")
     b = d2.strftime("%Y/%m/%d")
     sql = """select str_to_date(report_date, '%Y/%m/%d') rank,
-    DATE_FORMAT(str_to_date(report_date, '%Y/%m/%d'), '%m月%d日') date , round(sum(cost), 2) cost
+    DATE_FORMAT(str_to_date(report_date, '%Y/%m/%d'), '%Y%m%d') date , round(sum(cost), 2) cost
     from fb_online_report
     where str_to_date(report_date, '%Y/%m/%d') BETWEEN '""" \
     + b + "' and '" + a + "' group by report_date order by rank"
@@ -154,8 +156,8 @@ def last_7_days_sql():
 
 def last_12_week_sql():
     return """select DATE_FORMAT(str_to_date(report_date, '%Y/%m/%d'), '%Y%u') weeks
-        , min(DATE_FORMAT(str_to_date(report_date, '%Y/%m/%d'), '%m.%d')) from_date
-        , max(DATE_FORMAT(str_to_date(report_date, '%Y/%m/%d'), '%m.%d')) to_date
+        , min(DATE_FORMAT(str_to_date(report_date, '%Y/%m/%d'), '%y.%m.%d')) from_date
+        , max(DATE_FORMAT(str_to_date(report_date, '%Y/%m/%d'), '%y.%m.%d')) to_date
         , round(sum(cost), 2) cost
         from fb_online_report
         group by weeks
@@ -163,7 +165,7 @@ def last_12_week_sql():
 
 
 def total_consume_sql():
-    return """select count(weeks) * 1000 baseline
+    return """select 100000 baseline
         , sum(cost) cost
         , CONCAT(min(from_date), '-', max(to_date)) time_range
         from (
