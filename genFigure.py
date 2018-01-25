@@ -83,6 +83,7 @@ def gen_60_day_advertiser_consume():
     x_label = []
     data = []
     order_int = 1
+    plt.figure(figsize=(10, 5))
     for row in results4:
         x_label.append(str(order_int) +  "." + row[0])
         data.append(row[1])
