@@ -82,10 +82,12 @@ def gen_60_day_advertiser_consume():
     results4 = get_records(param['sql'])
     x_label = []
     data = []
-    order_int = 1
-    plt.figure(figsize=(10, 5))
+    order_int = 0
+    alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's'
+                , 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    plt.figure(figsize=(20, 13))
     for row in results4:
-        x_label.append(str(order_int) +  "." + row[0])
+        x_label.append(str(alphabet[order_int]) +  "." + row[0])
         data.append(row[1])
         order_int = order_int + 1
     length = len(x_label)
@@ -94,6 +96,7 @@ def gen_60_day_advertiser_consume():
         plt.text(x_label[index], data[index], data[index])
         index = index + 1
     plt.axhline(baseline_value, color='b')
+    #plt.xticks(rotation=-15)
     plt.title("Performad消耗-by广告主（" + param['from'] + "-" + param['to'] + "）")
     plt.bar(x_label, data, fc='r', width=0.4)
     file_name = determine_default_file_path('Figure_4', 'png')
